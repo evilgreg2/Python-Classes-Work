@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat with ...</title>
+
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+        
+
+        header {
+            width: 100%;
+            display: flex;
+            border-bottom: 1px solid black;
+        }
+        .Back-Btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .Back-Btn img {
+            width: 30px;
+        }
+        .Avatar img {
+            height: 50px;
+            margin: 10px;
+            border-radius: 50%;
+        }
+
+        .Chat-Info {
+            margin: 10px;
+        }
+
+        .Chat-Title {
+            font-weight: 600;
+        }
+
+        .Last-Seen {
+            color: #979797; 
+        }
+    
+    </style>
+
+
+</head>
+<body>
+    <header>
+        <button class = "Back-Btn">    
+            <img src="./images/arrow-back.png" alt = "">
+        </button>
+        <div class = "Avatar">
+            <img src ="https://i.pravatar.cc/100?id=2" alt ="">
+        </div>
+
+
+        <div class = "Chat-Info">
+            <div class = "Chat-Title">Elizabeth</div>
+            <div class = "Last-Seen">Last seen 2 days ago</div>
+        </div>
+
+        <div class = "Chat-Controls">
+            <div class = "Chat-Control">
+                <img src = "./images/search.png" alt = "">
+            </div>
+            <div class = "Chat-Control">
+                <img src = "./images/more.png" alt = "">
+            </div>
+
+
+        </div>
+
+    </header>
+</body>
+</html>

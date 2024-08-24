@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Favorites</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .Search-Input{
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .Search-Input input {
+            width: 100%;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 18px;
+            padding: 15px;
+            background-color: #ececec;
+            border-radius: 30px;
+        }
+
+        .Bookmark-Bar {
+            padding: 0 10px;
+            display: flex;
+        }
+
+        .Bookmark-Item {
+            margin-right: 15px;
+            padding: 7px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #424242;
+            cursor: pointer;
+        }
+
+        .Bookmark-Item img {
+            height: 25px;
+        }
+        
+        .Counter {
+            margin: 0 8px;
+            padding: 5px;
+            background-color: #0E6BC3;
+            color: #ffffff;
+            border-radius: 9px;
+        }
+        .Bookmark-Active {
+            color: #0E6BC3;
+            border-bottom: 2px solid #0E6BC3;
+        }
+        
+        .Chats {
+            padding: 10px;
+        }
+
+        .Chat-Item {
+            display: flex;
+            padding: 10px;
+        }
+
+        .Avatar {
+            margin-right: 10px;
+        }
+        
+        .Avatar img {
+            height: 70px;
+            border-radius: 50%;
+        }
+
+        .Chat-Info {
+            width: 100%;
+            position: relative;
+        }
+
+        .Chat-Time {
+            position: absolute;
+            right: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #8f8f8f;
+        }
+
+        .Chat-Username {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .Chat-LastMsg {
+            color: #8f8f8f;
+        }
+
+        .Chat-Counter {
+            position: absolute;
+            background-color: #0E6BC3;
+            padding: 5px 10px;
+            color: #ffffff;
+            border-radius: 10px;
+            font-size: 12px;
+            right: 15px;
+            bottom: 20px;
+        }
+
+        .Page-Controls {
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            background-color: #e9e9e9;
+        }
+
+        .Control-Button {
+            width: 25%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .Control-Button img {
+            height: 40px;
+            width: 40px;
+            margin: 15px;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class = "Search-Input">
+        <input  type = "text" placeholder="Search...">
+    </div>
+    <div class ="Bookmark-Bar">
+        <div class = "Bookmark-Item">
+            <img src="./images/bookmark.png" alt="">
+        </div>
+        <div class="Bookmark-Item Bookmark-Active">
+            <span>All Chats</span>
+        </div>
+        <div class="Bookmark-Item">
+            <span>Friends</span>
+            <div class="Counter">27</div>
+        </div>
+        <div class="Bookmark-Item">
+            <img src = "./images/add.png" alt = "">
+        </div>
+    </div>
+    <div class = "Chats"> 
+        <div class = "Chat-Item">
+            <div class = "Avatar">
+                <img src ="https://i.pravatar.cc/100" alr = "">
+            </div>
+            <div class = "Chat-Info">
+                <div class = "Chat-Time">6:11PM</div>
+                <div class = "Chat-Username">Mr.Roman</div>
+                <div class = "Chat-LastMsg">Hello how are you?</div>
+                <div class = "Chat-Counter">2</div>
+            </div>
+        </div>
+    </div>
+    <div class="Page-Controls">
+        <div class="Control-Button">
+            <img src ="./images/stories.png" alt = "">
+            <span>Stories</span>
+        </div>
+        <div class="Control-Button">
+            <img src ="./images/chats.png" alt = "">
+            <span>Chats</span>
+        </div>
+        <div class="Control-Button">
+            <img src ="./images/contacts.png" alt = "">
+            <span>Contacts</span>
+        </div>
+        <div class="Control-Button">
+            <img src ="./images/settings.png" alt = "">
+            <span>Settings</span>
+        </div>
+    </div>
+</body>
+</html>

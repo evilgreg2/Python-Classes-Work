@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <title>Sign Up Page</title>
+        <style>
+            div.Signup-Form {
+                background-color: white;
+                width: 400px;
+                padding: 20px;
+                border-radius: 20px;
+                box-shadow:10px 10px 10px #bb725e;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #FFA288;
+            }
+
+            input {
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid #646464;
+                padding: 10px;
+                outline: none;
+                margin-bottom: 20px;
+                font-size: 16px;
+                padding-left: 40px;
+            }
+            form {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: end;
+            }
+            div.Form-Input {
+                width: 100%;
+            }
+            div.Form-Input img {
+                position: absolute;
+                width: 40px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 50px;
+                border: none;
+                background-color: #FFA288;
+                color: #ffffff;
+                cursor: pointer;
+            }
+            h1 {
+                font-size: 28px;
+                font-family: Arial, Helvetica, sans-serif;
+                margin-bottom: 30px;
+            }
+        </style>
+        <script>
+            window.addEventListener("load", () => {
+                let button = document.getElementById("Signup-Button")
+                button.addEventListener("click", (event) => {
+                    event.preventDefault()
+                    const nameInput = document.getElementById("Name-Input")
+                    const emailInput = document.getElementById("Email-Input")
+                    const passwordInput = document.getElementById("Password-Input")
+                   
+                   const params = new URLSearchParams({
+                       username: emailInput.value,
+                       password: passwordInput.value,
+                   })
+
+                   fetch("/user/signup?" + params.toString()).then((response) => {
+                       if(response.status == 200){
+                           window.location.href = "/static/signin.html"
+                       }
+                   })
+                })
+            })
+        </script>
+    </head>
+    <body>
+        <div class = "Signup-Form">
+            <h1> Sign Up</h1>
+            <form>
+
+                <div class = "Form-Input">
+                <img src="/static/images/person.png" alt="">
+                <input id = "Name-Input" type = "text" placeholder="Your Name">
+                </div>
+
+                <div class = "Form-Input">
+                    <img src="/static/images/mail.png" alt="">
+                    <input id ="Email-Input" type= "text" placeholder = "Your Email">
+                </div>
+
+                <div class = "Form-Input">
+                    <img src="/static/images/lock.png" alt="">
+                    <input id = "Password-Input" type= "password" placeholder = "Your Password">
+                </div>
+
+                <button id = "Signup-Button">Register</button>
+            </form>
+        </div>
+    </body>
+</html>
