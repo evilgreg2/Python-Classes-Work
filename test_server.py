@@ -38,6 +38,9 @@ def search(token: str, prefix: str):
     if token not in tokens:
         raise HTTPException(status_code = 400)
     
+    if len(prefix) < 3:
+        return []
+    
     result = []
     for username in users.keys():
         if prefix in username:
