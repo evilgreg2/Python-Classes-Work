@@ -64,6 +64,22 @@ def get_list_of_favorites(token: str):
     if token not in tokens:
         raise HTTPException(status_code = 400)
     username = tokens[token]
+    return [
+        {
+            "imgLink": "https://i.pravatar.cc/100?id=2",
+            "time": "5:11PM",
+            "username": "User 1",
+            "lastMsg": "message here",
+            "counter": "1",
+        },
+        {
+            "imgLink": "https://i.pravatar.cc/100?id=2",
+            "time": " 1:00 PM",
+            "username": "User 2",
+            "lastMsg": "message here 2",
+            "counter": "3",
+        },
+    ]
     return favorites[username]
 
 
@@ -73,7 +89,22 @@ def get_messages(token: str, favorite_name: str):
         raise HTTPEsception(status_code = 400)
     username = tokens[token]
     pair = frozenset((username, favorite_name))
-    return chats[pair]
+    return {
+        "username": "Elizabeth",
+        "lastVisit": "1727227624",
+        "messages": [
+            {
+                "text": "I am some message",
+                "time": "1727227524",
+                "author": "Elizabeth",
+            },
+            {
+                "text": "I am another message",
+                "time": "17227237510",
+                "author": "Greg",
+            }
+        ]
+    }
 
 @app.get("/chat/send")
 def send_message(token: str, favorite_name: str, message_body: str):

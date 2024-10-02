@@ -181,18 +181,7 @@
             <img src = "./images/add.png" alt = "">
         </div>
     </div>
-    <div class = "Chats"> 
-        <div class = "Chat-Item">
-            <div class = "Avatar">
-                <img src ="https://i.pravatar.cc/100" alr = "">
-            </div>
-            <div class = "Chat-Info">
-                <div class = "Chat-Time">6:11PM</div>
-                <div class = "Chat-Username">Mr.Roman</div>
-                <div class = "Chat-LastMsg">Hello how are you?</div>
-                <div class = "Chat-Counter">2</div>
-            </div>
-        </div>
+    <div class = "Chats" id ="Chats"> 
     </div>
     <div class="Page-Controls">
         <div class="Control-Button">
@@ -211,9 +200,82 @@
             <img src ="./images/settings.png" alt = "">
             <span>Settings</span>
         </div>
+    
     </div>
     <script>
+
+        const createSimpleDiv = (className, content) => {
+            const div = document.createElement("div")
+            div.className = className
+            div.innerText = content
+            return div
+        }
+
+        const createChatItem = (imgLink, time, username, lastMsg, counter) => {
+
+            const chatTime = createSimpleDiv("Chat-Time", time)
+            //const chatUser = createSimpleDiv("Chat-Username", username)
+            const userLink = document.createElement("a")
+            userLink.href = "/static/chat.html?username=" + username
+            userLink.innerText = username
+            const chatUser = document.createElement("div")
+            chatUser.className = "Chat-Username"
+            chatUser.appendChild(userLink)
+
+            const chatLastMsg = createSimpleDiv("Chat-LastMsg", lastMsg)
+            const chatCounter = createSimpleDiv("Chat-Counter", counter)
+
+            const chatInfo = document.createElement("div")
+            chatInfo.className = "Chat-Info"
+            chatInfo.appendChild(chatTime)
+            chatInfo.appendChild(chatUser)
+            chatInfo.appendChild(chatLastMsg)
+            chatInfo.appendChild(chatCounter)
+
+            const img = document.createElement("img")
+            img.src = imgLink
+
+            const avatar = document.createElement("div")
+            avatar.className = "Avatar"
+            avatar.appendChild(img)
+
+            const chatItem = document.createElement("div")
+            chatItem.className = "Chat-Item"
+
+            chatItem.appendChild(avatar)
+            chatItem.appendChild(chatInfo)
+
+            return chatItem
+        }
+
+        const populateListOfFriends = (data) => {
+            const listWrapper = document.getElementById("Chats")
+
+            data.map(item => {
+                listWrapper.appendChild(createChatItem(
+                    item.imgLink,
+                    item.time,
+                    item.username,
+                    item.lastMsg,
+                    item.counter,
+                ))
+            })
+        }
+
+        const loadFriends = () => {
+            fetch("/favorite/list?token="+localStorage.getItem("token")).then(res => {
+                if(res.status === 400){
+                    localStorage.removeItem("token")
+                    window.location.href = "/static/signup.html"
+                }
+                res.json().then(data => {
+                    populateListOfFriends(data)
+                })
+            })
+        }
+
         window.addEventListener("load", () => {
+            loadFriends()
             const searchInput = document.getElementById("Search-Input")
             searchInput.addEventListener("input", (event) => {
                 const params = new URLSearchParams ({

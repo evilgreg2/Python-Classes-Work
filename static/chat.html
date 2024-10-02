@@ -75,8 +75,7 @@
             background-color: #D9E5EE;
             gap: 10px;
             min-height: 100%;
-            width: 100%;
-            box-sizing: border-box;
+            width: calc(100% - 20px);
 
         }
 
@@ -146,8 +145,8 @@
 
 
         <div class = "Chat-Info">
-            <div class = "Chat-Title">Elizabeth</div>
-            <div class = "Last-Seen">Last seen 2 days ago</div>
+            <div class = "Chat-Title" id = "Chat-Title"></div>
+            <div class = "Last-Seen" id = "Last-Seen"></div>
         </div>
 
         <div class = "Chat-Controls">
@@ -162,7 +161,7 @@
         </div>
 
     </header>
-    <div class="Messages-Container">
+    <div class="Messages-Container" id = "Messages-Container">
         <div class="Message">
             <div class="Message-Text">This is not a user message</div>
             <div class="Message-Info">10:30 PM</div>
@@ -180,5 +179,70 @@
         <input type = "text" placeholder="Message">
         <button>Send</button>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+    <script>
+
+        const fetchMessages = (friend) => {
+            const params = new URLSearchParams ({
+                token: localStorage.getItem("token"),
+                favorite_name: friend,
+            })
+
+            return fetch("/chat?" + params.toString()).then(response => {  
+                if(response.status !== 200){
+                    localStorage.removeItem("token")
+                    window.location.href = "/static/signup.html"
+                }
+                return response.json()     
+            })       
+        }
+
+        const setFriendUsername = (username) => {
+            const element = document.getElementById("Chat-Title")
+            element.innerText = username
+        }
+
+        const setLastVisit = (timestamp) => {
+            const element = document.getElementById("Last-Seen")
+            element.innerText = timestamp
+        }
+
+        const setMessages = (messages) => {
+            const container = document.getElementById("Messages-Container")
+
+            messages.map(m => {
+                const text = document.createElement("div")
+                text.className = "Message-Text"
+                text.innerText = m.text
+
+                const info = document.createElement("div")
+                info.className = "Message-Info"
+                info.innerText = luxon.DateTime(m.time).toLocaleString()
+
+                const message = document.createElement("div")
+                message.className = "Message"
+                if(m.author !== friend){
+                    message.className += "User-Message"
+                }
+
+                message.appendChild(text)
+                message.appendChild(info)
+
+                container.appendChild(message)
+
+            })
+        }
+
+        window.addEventListener("load", () => {
+            const params = new URLSearchParams (window.location.search)
+            const friend = params.get("username")
+
+            fetchMessages(friend).then(data => {
+                setFriendUsername(data.username)
+                setLastVisit(data.lastVisit)
+                setMessages(data.messages)
+            })
+        })
+    </script>
 </body>
 </html>
