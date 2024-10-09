@@ -207,7 +207,7 @@
             element.innerText = timestamp
         }
 
-        const setMessages = (messages) => {
+        const setMessages = (messages, friend) => {
             const container = document.getElementById("Messages-Container")
 
             messages.map(m => {
@@ -217,7 +217,11 @@
 
                 const info = document.createElement("div")
                 info.className = "Message-Info"
-                info.innerText = luxon.DateTime(m.time).toLocaleString()
+                const datetime = new Date(Number(m.time) * 1000) 
+                const formatter = new Intl.DateTimeFormat(
+                    "en-US", {timeStyle: "short"}
+                )
+                info.innerText = formatter.format(datetime)
 
                 const message = document.createElement("div")
                 message.className = "Message"
@@ -240,7 +244,7 @@
             fetchMessages(friend).then(data => {
                 setFriendUsername(data.username)
                 setLastVisit(data.lastVisit)
-                setMessages(data.messages)
+                setMessages(data.messages, data.username)
             })
         })
     </script>

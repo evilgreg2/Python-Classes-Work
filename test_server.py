@@ -13,6 +13,8 @@ tokens = {}
 favorites = {}
 chats = {}
 
+users["fake1"] = "password1"
+users["fake2"] = "password2"
 
 @app.get("/user/signup")
 def signup(username: str, password: str):
@@ -50,13 +52,14 @@ def search(token: str, prefix: str):
 
 
 @app.get("/favorite/add")
-def add_to_favorites(token: str, favorite_name: str):
+def add_to_favorites(token: str, favorite_name: str): 
     if token not in tokens:
         raise HTTPException(status_Code = 400)
     username = tokens[token]
     favorites[username].append(favorite_name)
     pair = frozenset((username, favorite_name))
     chats[pair] = []
+    print(favorite_name , favorites , chats)
 
 
 @app.get("/favorite/list")
@@ -64,23 +67,19 @@ def get_list_of_favorites(token: str):
     if token not in tokens:
         raise HTTPException(status_code = 400)
     username = tokens[token]
-    return [
-        {
+    friends = favorites[username]
+
+    result = []
+    for f in friends:
+        result.append({
             "imgLink": "https://i.pravatar.cc/100?id=2",
             "time": "5:11PM",
-            "username": "User 1",
+            "username": f,
             "lastMsg": "message here",
             "counter": "1",
-        },
-        {
-            "imgLink": "https://i.pravatar.cc/100?id=2",
-            "time": " 1:00 PM",
-            "username": "User 2",
-            "lastMsg": "message here 2",
-            "counter": "3",
-        },
-    ]
-    return favorites[username]
+        })
+
+    return result
 
 
 @app.get("/chat")

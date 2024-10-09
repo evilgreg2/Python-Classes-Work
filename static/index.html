@@ -250,7 +250,6 @@
 
         const populateListOfFriends = (data) => {
             const listWrapper = document.getElementById("Chats")
-
             data.map(item => {
                 listWrapper.appendChild(createChatItem(
                     item.imgLink,
@@ -291,7 +290,7 @@
                             const p = document.createElement("p")
                             p.innerText = option
                             searchOptions.appendChild(p)
-                            p.addEventListener("click", () => {
+                            p.addEventListener("click", (event) => {
                                 console.log(event.target.innerText)
                                 const params = new URLSearchParams({
                                     token: localStorage.getItem("token"),
