@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from uvicorn import run
 from secrets import token_hex
+from datetime import datetime
 
 app = FastAPI()
 
@@ -89,20 +90,9 @@ def get_messages(token: str, favorite_name: str):
     username = tokens[token]
     pair = frozenset((username, favorite_name))
     return {
-        "username": "Elizabeth",
+        "username": favorite_name,
         "lastVisit": "1727227624",
-        "messages": [
-            {
-                "text": "I am some message",
-                "time": "1727227524",
-                "author": "Elizabeth",
-            },
-            {
-                "text": "I am another message",
-                "time": "17227237510",
-                "author": "Greg",
-            }
-        ]
+        "messages": chats[pair],
     }
 
 @app.get("/chat/send")
@@ -111,7 +101,11 @@ def send_message(token: str, favorite_name: str, message_body: str):
         raise HTTPException(status_code = 400)
     username = tokens[token]
     pair = frozenset((username, favorite_name))
-    chats[pair].append(message_body)
+    chats[pair].append({
+        "text": message_body,
+        "time": int(datetime.now().timestamp()),
+        "author": username,
+    })
 
 
 run(app)

@@ -161,23 +161,10 @@
         </div>
 
     </header>
-    <div class="Messages-Container" id = "Messages-Container">
-        <div class="Message">
-            <div class="Message-Text">This is not a user message</div>
-            <div class="Message-Info">10:30 PM</div>
-        </div>
-        <div class="Message User-Message">
-            <div class="Message-Text">This is a user message</div>
-            <div class="Message-Info">10:30 PM</div>
-        </div>
-        <div class="Message">
-            <div class="Message-Text">This is not a user message</div>
-            <div class="Message-Info">10:30 PM</div>
-        </div>
-    </div>
+    <div class="Messages-Container" id = "Messages-Container"> </div>
     <div class = "Input-Container">
-        <input type = "text" placeholder="Message">
-        <button>Send</button>
+        <input id = "Message-Input" type = "text" placeholder="Message">
+        <button id = "Send-Button" >Send</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <script>
@@ -245,6 +232,20 @@
                 setFriendUsername(data.username)
                 setLastVisit(data.lastVisit)
                 setMessages(data.messages, data.username)
+            })
+
+            const submit = document.getElementById("Send-Button")
+
+            submit.addEventListener("click", () => {
+                const input = document.getElementById("Message-Input")
+                const params = new URLSearchParams({
+                    token: localStorage.getItem("token"),
+                    favorite_name: friend,
+                    message_body: input.value,
+                })
+                fetch("/chat/send?" + params.toString()).then(() => {
+                    window.location.reload()
+                })
             })
         })
     </script>
