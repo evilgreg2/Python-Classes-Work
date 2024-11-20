@@ -3,19 +3,65 @@ from fastapi.staticfiles import StaticFiles
 from uvicorn import run
 from secrets import token_hex
 from datetime import datetime
-
-app = FastAPI()
-
-app.mount("/static", StaticFiles(directory = "static"), name= "static")
-
+from contextlib import asynccontextmanager
+from os import listdir
+import pickle
 
 users = {}
 tokens = {}
 favorites = {}
 chats = {}
 
-users["fake1"] = "password1"
-users["fake2"] = "password2"
+def init_file(filename: str) -> None:
+    if filename not in listdir("data"):
+        try:
+            file = open("./data/" + filename, "wb")
+            file.write(pickle.dumps({}))
+        finally:
+            file.close()
+
+def load_file(filename: str) -> dict:
+    try:
+        file = open("./data/" + filename, "rb")
+        data = pickle.loads(file.read())
+    finally:
+        file.close()
+    return data
+
+def save_file(filename: str, obj: dict) -> None:
+    try:
+        file = open("./data/" + filename, "wb")
+        file.write(pickle.dumps(obj))
+    finally:
+        file.close()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # On Startup
+    init_file("users.bin")
+    init_file("tokens.bin")
+    init_file("favorites.bin")
+    init_file("chats.bin")
+
+    global users, tokens, favorites, chats
+    users = load_file("users.bin")
+    tokens = load_file("tokens.bin")
+    favorites = load_file("favorites.bin")
+    chats = load_file("chats.bin")
+
+
+    yield
+
+    # On ShutDown
+    
+    save_file("users.bin", users)
+    save_file("tokens.bin", tokens)
+    save_file("favorites.bin", favorites)
+    save_file("chats.bin", chats)
+
+app = FastAPI(lifespan = lifespan)
+
+app.mount("/static", StaticFiles(directory = "static"), name= "static")
 
 @app.get("/user/signup")
 def signup(username: str, password: str):
